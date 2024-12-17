@@ -9,7 +9,8 @@ import NotFoundPage from '../pages/NotFoundPage';
 
 const  App = () => {
   return (
-    <div>
+    <>
+    
     <Routes>
         <Route path="/" element={<Layout/>}/>
         <Route path="/" element={<HomePage />} />
@@ -18,7 +19,8 @@ const  App = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
-    </div>
+    
+    </>
   );
 };
 
