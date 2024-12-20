@@ -1,6 +1,9 @@
 
 import React from 'react';
-import { CardImage, MainInfoWrap, TitlePriceWrap, Title, PriceWrap, Price, RatingLocationWrap, RatingWrap, LocationWrap, DetailsList, CardItem, Description, CardButton } from '../CatalogPage/CamperCard.styled';
+import { useDispatch, useSelector } from "react-redux";
+import {addToFavorites, removeFromFavorites} from '../../redux/catalog/catalogSlice';
+import {selectFavorites} from '../../redux/catalog/catalogSelectors';
+import { CardImage, MainInfoWrap, TitlePriceWrap, Title, PriceWrap, AddToFavBtn, Price, RatingLocationWrap, RatingWrap, LocationWrap, DetailsList, CardItem, Description, CardButton } from '../CatalogPage/CamperCard.styled';
 import {StarIcon} from '../Icons/StarIcon';
 import {LocationIcon} from '../Icons/LocationIcon';
 import {HeartIcon} from '../Icons/HeartIcon';
@@ -10,6 +13,9 @@ import {TransmissionIcon} from '../Icons/TransmissionIcon';
 import {WindIcon} from '../Icons/WindIcon';
 
 const CamperCard = ({ camper }) => {
+  const dispatch = useDispatch();
+  const favorites = useSelector(selectFavorites);
+  const isCardFavorite = favorites.find((fav) => fav.id === camper.id);
   return (
     <>
     <CardImage src={camper.gallery[0]} alt={camper.name} />
@@ -19,9 +25,16 @@ const CamperCard = ({ camper }) => {
     <Title>{camper.name}</Title>
     <PriceWrap>
         <Price>€{camper.price.toFixed(2)}</Price>
-        <button type="button">
+        <AddToFavBtn type="button"
+        aria-label="Add to favorites"onClick={() =>
+          isCardFavorite
+            ? dispatch(removeFromFavorites(camper.id))
+            : dispatch(addToFavorites(camper))
+        }
+        $isFavorite={isCardFavorite}
+        >
         <HeartIcon width="20" height="20" />
-        </button>
+        </AddToFavBtn>
         </PriceWrap>
         </TitlePriceWrap>
 
@@ -40,13 +53,13 @@ const CamperCard = ({ camper }) => {
          
         <DetailsList>
           <CardItem>
-            <div>
+            <div  className="capitalize">
             <TransmissionIcon width={20} height={20} />
             <p>{camper.transmission}</p>
             </div>
           </CardItem>
           <CardItem>
-            <div>
+            <div className="capitalize">
             <PetrolIcon width={20} height={20} />
             <p>{camper.engine}</p>
             </div>

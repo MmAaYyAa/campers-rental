@@ -68,7 +68,7 @@ export const PriceWrap = styled.div`
   ${AlignItems}
   gap: 8px;
 
-  button {
+  /* button {
     svg {
       fill: transparent;
       stroke: var(--color-text);
@@ -80,7 +80,24 @@ export const PriceWrap = styled.div`
         stroke: var(--color-button-hover);
       }
     }
-  }
+  } */
+`;
+
+export const AddToFavBtn = styled.button`
+svg {
+  fill: ${({ $isFavorite }) =>
+    $isFavorite ? "var(--color-button-hover)" : "transparent"};
+  stroke: ${({ $isFavorite }) =>
+    $isFavorite ? "none" : "var(--color-text)"};
+  transition: fill var(--cubic-transition);
+
+  &:hover svg {
+      fill: ${({ $isFavorite }) =>
+        $isFavorite ? "transparent" : "var(--color-button-hover)"};
+      stroke: ${({ $isFavorite }) =>
+        $isFavorite ? "var(--color-text)" : "var(--color-button-hover)"};
+    }
+}
 `;
 
 export const Price = styled.p`
