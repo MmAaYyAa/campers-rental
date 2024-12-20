@@ -4,13 +4,16 @@ import 'normalize.css';
 const GlobalStyles = createGlobalStyle`
 :root {
     --color-text: #101828;
-    --color-main: #475467;
+    --color-main: #6C717B;
     --color-button: #E44848;
     --color-button-hover: #D84343;
     --color-rating: #FFC531;
     --color-block: #F2F4F7;
     --color-inputs: #F7F7F7;
     --color-background: #FFFFFF;
+    --color-border: #DADDE1;
+    --linear-transition: 150ms linear;
+    --cubic-transition: 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @font-face {
@@ -75,9 +78,8 @@ body {
     letter-spacing: -0.005em;
     color: var(--color-text);
     background-color: var(--color-background);
-    overflow-x: hidden;
-    margin: 0;
 }
+
 h1,
 h2,
 h3,
@@ -87,34 +89,36 @@ h6,
 p {
     margin: 0;
 }
+
 ul,
 ol {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
+
 a {
     color: currentColor;
     text-decoration: none;
 }
-img {
-    display: block;
-    height: auto;
-    border: none;
-    max-width: 100%;
-}
+
 button {
     font-family: inherit;
     border: none;
+    padding: 0;
+    background-color: transparent;
     cursor: pointer;
 }
+
 *, 
 *::before, 
 *::after {
     box-sizing:border-box;
 }
-input {
+
+input, textarea{
     font-family: inherit;
+
     &:focus {
     outline: none;
     }

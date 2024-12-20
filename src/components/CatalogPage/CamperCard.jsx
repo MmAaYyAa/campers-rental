@@ -1,39 +1,72 @@
 
 import React from 'react';
-import { Card, CardImage, CardInfo, CardButton } from '../CatalogPage/CamperCard.styled';
-import StarIcon from '../Icons/StarIcon';
-import LocationIcon from '../Icons/LocationIcon';
-import HeartIcon from '../Icons/HeartIcon';
+import { CardImage, MainInfoWrap, TitlePriceWrap, Title, PriceWrap, Price, RatingLocationWrap, RatingWrap, LocationWrap, DetailsList, CardItem, Description, CardButton } from '../CatalogPage/CamperCard.styled';
+import {StarIcon} from '../Icons/StarIcon';
+import {LocationIcon} from '../Icons/LocationIcon';
+import {HeartIcon} from '../Icons/HeartIcon';
+import {PetrolIcon} from '../Icons/PetrolIcon';
+import {KitchenIcon} from '../Icons/KitchenIcon';
+import {TransmissionIcon} from '../Icons/TransmissionIcon';
+import {WindIcon} from '../Icons/WindIcon';
 
 const CamperCard = ({ camper }) => {
   return (
-    <Card>
-      <CardImage src={camper.gallery[0]} alt={camper.name} />
-      <CardInfo>
-        <div>
-        <p>{camper.name}</p>
-        <p>{camper.price}</p>
-        <button>
-        <HeartIcon width="16" height="16" />
+    <>
+    <CardImage src={camper.gallery[0]} alt={camper.name} />
+    
+    <MainInfoWrap>
+    <TitlePriceWrap>
+    <Title>{camper.name}</Title>
+    <PriceWrap>
+        <Price>€{camper.price.toFixed(2)}</Price>
+        <button type="button">
+        <HeartIcon width="20" height="20" />
         </button>
-        </div>
-        
-        <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {/* Использование компонента StarIcon */}
-            <StarIcon width="16" height="16" />
+        </PriceWrap>
+        </TitlePriceWrap>
+
+        <RatingLocationWrap>
+        <RatingWrap>
+            <StarIcon width="20" height="20" />
             <p>{`${camper.rating}(${camper.reviews.length} Reviews)`}</p>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <LocationIcon width="16" height="16" />
-            <p>{camper.location}</p>
+            </RatingWrap>
+            <LocationWrap>
+          <LocationIcon width="20" height="20" />
+            <p>{camper.location.split(",").reverse().join(", ")}</p>
+            </LocationWrap>
+            </RatingLocationWrap>
+
+        <Description>{camper.description}</Description>
+         
+        <DetailsList>
+          <CardItem>
+            <div>
+            <TransmissionIcon width={20} height={20} />
+            <p>{camper.transmission}</p>
             </div>
-        
-        </div>
-        <p>{camper.description}</p>
-        <CardButton>Show more ...</CardButton>
-      </CardInfo>
-    </Card>
+          </CardItem>
+          <CardItem>
+            <div>
+            <PetrolIcon width={20} height={20} />
+            <p>{camper.engine}</p>
+            </div>
+          </CardItem>
+          <CardItem>
+            <div>
+            <KitchenIcon width={20} height={20} />
+            <p>Kitchen</p>
+            </div>
+          </CardItem>
+          <CardItem>
+  <div>
+    <WindIcon width={20} height={20} />
+    <p>AC</p>
+  </div>
+</CardItem>
+          </DetailsList>
+        <CardButton type="button">Show more ...</CardButton>
+        </MainInfoWrap>
+        </>
   );
 };
 

@@ -6,7 +6,7 @@ export const StyledHeader = styled.header`
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
-  background-color: #F2F4F7;
+  background-color:  var( --color-block);
   position: relative;
   width: 100%;
 `;

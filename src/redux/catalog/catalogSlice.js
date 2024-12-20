@@ -5,6 +5,7 @@ const {getCatalog} = operations;
 
 const initialState = {
     items: [],
+    favorites: JSON.parse(localStorage.getItem("persist:favorites"))?.favorites ?? [], 
     isLoading: false,
     error: null,
 };
@@ -12,6 +13,17 @@ const initialState = {
 const catalogSlice = createSlice({
     name: 'catalog',
     initialState,
+    reducers: {
+        addToFavorites: (state, action) => {
+            const item = action.payload;
+            if (!state.favorites.some(fav => fav.id === item.id)) {
+                state.favorites.push(item);
+            }
+        },
+        removeFromFavorites: (state, action) => {
+            state.favorites = state.favorites.filter(fav => fav.id !== action.payload);
+        },
+    },
     extraReducers: (builder) => {
         builder
         .addCase(getCatalog.pending, (state) => {
@@ -31,3 +43,4 @@ const catalogSlice = createSlice({
 });
 
 export default catalogSlice.reducer;
+export const { addToFavorites, removeFromFavorites } = catalogSlice.actions;
