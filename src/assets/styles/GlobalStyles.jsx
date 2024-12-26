@@ -4,7 +4,8 @@ import 'normalize.css';
 const GlobalStyles = createGlobalStyle`
 :root {
     --color-text: #101828;
-    --color-main: #6C717B;
+    --color-main: #475467;
+    --gray: #6c717b;
     --color-button: #E44848;
     --color-button-hover: #D84343;
     --color-rating: #FFC531;
@@ -12,8 +13,7 @@ const GlobalStyles = createGlobalStyle`
     --color-inputs: #F7F7F7;
     --color-background: #FFFFFF;
     --color-border: #DADDE1;
-    --linear-transition: 150ms linear;
-    --cubic-transition: 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @font-face {
@@ -98,7 +98,7 @@ ol {
 }
 
 a {
-    color: currentColor;
+    color: inherit;
     text-decoration: none;
 }
 
@@ -122,5 +122,13 @@ input, textarea{
     &:focus {
     outline: none;
     }
+
+    img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: none;
+  object-fit: cover;
+}
 }`;
 export default GlobalStyles;

@@ -1,150 +1,120 @@
-import React, { useState, useEffect  } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRef, useState } from 'react';
 import {
-    FilterContainer,
-    IconList,
-    IconItem
-  } from './Filter.styled'
+  setLocation,
+  toggleTruckEquipment,
+  setTruckType,
+} from '../../redux/filters/filterSlice';
+import { fetchTrucks } from '../../redux/catalog/catalogOperations';
+import { selectFilters } from '../../redux/filters/filterSelector';
+import {LocationIcon} from '../Icons/LocationIcon';
+import {formatString} from '../../utils/utils';
+export default function Filter() {
+  const dispatch = useDispatch();
+  const {truckType, truckEquipment } = useSelector(selectFilters);
 
-const Filter = ({ onChange, selectedFilters }) => {
-    const [filters, setFilters] = useState(selectedFilters);
+  const [activeFilters, setActiveFilters] = useState({
+    location: '',
+    truckType: { ...truckType },
+    truckEquipment: { ...truckEquipment },
+  });
 
-    useEffect(() => {
-        setFilters(selectedFilters);
-    }, [selectedFilters]);
+  const locationRef = useRef('');
+  const truckTypeRef = useRef({ ...truckType });
+  const truckEquipmentRef = useRef({ ...truckEquipment });
+  
+  const handleLocationChange = e => {
+    const input = e.target.value;
+    locationRef.current = input.split(', ').reverse().join(', ');
+    setActiveFilters(prev => ({ ...prev, location: e.target.value }));
+  };
 
-    // Обработчик изменения полей формы
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+  const handleTruckTypeChange = type => {
+    dispatch(setTruckType(type));const newTruckType = { ...truckTypeRef.current };
+    if (newTruckType[type]) {
+      newTruckType[type] = false;
+    } else {
+      Object.keys(newTruckType).forEach(key => {
+        newTruckType[key] = false;
+      });
+      newTruckType[type] = true;
+  }
 
-        setFilters((prev) => {
-            if (type === 'checkbox') {
-                return {
-                    ...prev,
-                    [name]: checked
-                        ? [...(prev[name] || []), value]
-                        : prev[name].filter((item) => item !== value),
-                };
-            }
-            return { ...prev, [name]: value };
-        });
-    };
-
-    // Обработчик применения фильтров
-    const handleApply = () => {
-        if (onChange) {
-            onChange(filters);
-        }
-    };
-    return (
-        <FilterContainer>
-          <div>
-            <h3>Filters</h3>
-            <label>
-              <span>Location:</span>
-              <input
-                type="text"
-                name="location"
-                value={filters.location || ''}
-                onChange={handleChange}
-                placeholder="Select a city"
-              />
-            </label>
-          </div>
-    
-          <div>
-            <span>Vehicle Equipment</span>
-            <IconList>
-              {['AC', 'Heater', 'Solar'].map((equipment) => (
-                <IconItem
-                  key={equipment}
-                  selected={filters.equipment?.includes(equipment) || false}
-                  onClick={() =>
-                    handleChange({
-                      target: {
-                        name: 'equipment',
-                        value: equipment,
-                        type: 'checkbox',
-                        checked: !filters.equipment?.includes(equipment),
-                      },
-                    })
-                  }
-                >
-                  <span>{equipment}</span>
-                </IconItem>
-              ))}
-            </IconList>
-          </div>
-    
-          <div>
-            <span>Vehicle Type</span>
-            <IconList>
-              {['Van', 'Fully Integrated', 'Alcove'].map((type) => (
-                <IconItem
-                  key={type}
-                  selected={filters.type?.includes(type) || false}
-                  onClick={() =>
-                    handleChange({
-                      target: {
-                        name: 'type',
-                        value: type,
-                        type: 'checkbox',
-                        checked: !filters.type?.includes(type),
-                      },
-                    })
-                  }
-                >
-                  <span>{type}</span>
-                </IconItem>
-              ))}
-            </IconList>
-          </div>
-    
-          <button onClick={handleApply}>Search</button>
-        </FilterContainer>
-      );
+  truckTypeRef.current = newTruckType;
+    setActiveFilters(prev => ({
+      ...prev,
+      truckType: { ...newTruckType },
+    }));
 };
+  const handleEquipmentToggle = equipment => {
+    truckEquipmentRef.current[equipment] =
+    !truckEquipmentRef.current[equipment];
+  setActiveFilters(prev => ({
+    ...prev,
+    truckEquipment: {
+      ...prev.truckEquipment,
+      [equipment]: truckEquipmentRef.current[equipment],
+    },
+  }));
+  };
+  const handleSearch = () => {
+    dispatch(setLocation(locationRef.current));
+    Object.keys(truckTypeRef.current).forEach(type => {
+      if (truckTypeRef.current[type]) {
+        dispatch(setTruckType(type));
+      }
+    });
+    Object.keys(truckEquipmentRef.current).forEach(equipment => {
+      if (truckEquipmentRef.current[equipment]) {
+        dispatch(toggleTruckEquipment(equipment));
+      }
+    });
+    dispatch(fetchTrucks());
+  };
+  return (
+   <section>
+    <h2>Location</h2>
+    <div>
+        <LocationIcon />
+        <input type="text"
+        placeholder="Kyiv, Ukraine"
+        onChange={handleLocationChange}
+         />
+    </div>
+    <h2>Filters</h2>
+    <h3>Vehicle Equipment</h3>
+    <ul>
+    {Object.keys(truckEquipment).map(equipment => (
+         <li key={equipment}>
+            <button onClick={() => handleEquipmentToggle(equipment)} style={{
+                border: truckEquipment[equipment]
+                  ? '2px solid blue'
+                  : '1px solid gray',
+              }}>
+             {equipment}
+            </button>
+         </li>
+   ) )}
+    </ul>
 
-export default Filter;
-
-
-
-// import React from 'react';
-// import { FilterContainer, IconItem, IconList, IconLabel } from '../Filter/IconFilter.styled';
-// import { FaFan, FaCogs, FaUtensils, FaTv, FaShower, FaCaravan } from 'react-icons/fa';
-
-// const filterOptions = [
-//     { id: 'ac', label: 'AC', icon: <FaFan /> },
-//     { id: 'automatic', label: 'Automatic', icon: <FaCogs /> },
-//     { id: 'kitchen', label: 'Kitchen', icon: <FaUtensils /> },
-//     { id: 'tv', label: 'TV', icon: <FaTv /> },
-//     { id: 'bathroom', label: 'Bathroom', icon: <FaShower /> },
-//     { id: 'van', label: 'Van', icon: <FaCaravan /> },
-//   ];
-
-//   const IconFilter = ({ selectedFilters, onFilterChange }) => {
-//     const toggleFilter = (filterId) => {
-//       const updatedFilters = selectedFilters.includes(filterId)
-//         ? selectedFilters.filter((id) => id !== filterId)
-//         : [...selectedFilters, filterId];
-//       onFilterChange(updatedFilters);
-//     };
-  
-//     return (
-//       <FilterContainer>
-//         <IconList>
-//           {filterOptions.map(({ id, label, icon }) => (
-//             <IconItem
-//               key={id}
-//               selected={selectedFilters.includes(id)}
-//               onClick={() => toggleFilter(id)}
-//             >
-//               {icon}
-//               <IconLabel>{label}</IconLabel>
-//             </IconItem>
-//           ))}
-//         </IconList>
-//       </FilterContainer>
-//     );
-//   };
-  
-//   export default IconFilter;
+    <h3>Vehicle Type</h3>
+    <ul>
+    {Object.keys(truckType).map(type => (
+         <li key={type}>
+         <button
+           onClick={() => handleTruckTypeChange(type)}
+         >
+           {' '}
+          
+           {formatString(type)}
+         </button>
+       </li>
+     ))}
+    
+    </ul>
+    <button onClick={handleSearch}>
+        Search
+      </button>
+   </section>
+  );
+}

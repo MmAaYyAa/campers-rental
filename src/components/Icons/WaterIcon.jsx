@@ -1,7 +1,7 @@
 import sprite from '../../assets/icons/sprite.svg'
-const WaterIcon = ({ width, height }) => {
+const WaterIcon = () => {
   return (
-    <svg width={width} height={height}>
+    <svg width={20} height={20}>
       <use href={`${sprite}#icon-water`}></use>
     </svg>
   );

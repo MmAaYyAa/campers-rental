@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -8,30 +8,29 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import catalogReducer from './catalog/catalogSlice';
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { favoritesReducer } from './favourites/favouritesSlice';
+import { filtersReducer } from './filters/filterSlice';
+import { trucksReducer } from './catalog/catalogSlice';
 
 const persistConfig = {
-    key: 'catalog',
-    storage,
-    whitelist: ['favorites'],
+  key: 'favorites',
+  storage,
 };
+const persistedReducer = persistReducer(persistConfig, favoritesReducer);
 
-const persistedReducer = persistReducer(persistConfig, catalogReducer);
-
-
-const store = configureStore({
-    reducer: {
-        catalog: persistedReducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-          serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-          },
-        }),
+export const store = configureStore({
+  reducer: {
+    filters: filtersReducer,
+    trucks: trucksReducer,
+    favorites: persistedReducer,
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
-
 export const persistor = persistStore(store);
-export default store;

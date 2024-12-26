@@ -1,46 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
-import operations from './catalogOperations';
-
-const {getCatalog} = operations;
-
-const initialState = {
-    items: [],
-    favorites: JSON.parse(localStorage.getItem("persist:favorites"))?.favorites ?? [], 
-    isLoading: false,
-    error: null,
+import { fetchTrucks } from '../catalog/catalogOperations';
+const handlePending = state => {
+  state.loading = true;
+  state.error = null;
 };
-
-const catalogSlice = createSlice({
-    name: 'catalog',
-    initialState,
-    reducers: {
-        addToFavorites: (state, action) => {
-            const item = action.payload;
-            if (!state.favorites.some(fav => fav.id === item.id)) {
-                state.favorites.push(item);
-            }
-        },
-        removeFromFavorites: (state, action) => {
-            state.favorites = state.favorites.filter(fav => fav.id !== action.payload);
-        },
-    },
-    extraReducers: (builder) => {
-        builder
-        .addCase(getCatalog.pending, (state) => {
-            state.isLoading = true;
-        state.error = null;
-        })
-        .addCase(getCatalog.fulfilled, (state,action) => {
-            state.isLoading = false;
+const handleRejected = (state, action) => {
+  state.loading = false;
+  state.error = action.payload;
+};
+const trucksSlice = createSlice({
+  name: 'trucks',
+  initialState: {
+    items: [],
+    loading: false,
+    error: null,
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchTrucks.pending, handlePending)
+      .addCase(fetchTrucks.fulfilled, (state, action) => {
         state.items = action.payload;
-        })
-        .addCase(getCatalog.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-          });
-
-    },
+        state.loading = false;
+      })
+      .addCase(fetchTrucks.rejected, handleRejected);
+  },
 });
-
-export default catalogSlice.reducer;
-export const { addToFavorites, removeFromFavorites } = catalogSlice.actions;
+export const trucksReducer = trucksSlice.reducer;

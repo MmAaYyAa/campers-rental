@@ -1,7 +1,7 @@
 import sprite from '../../assets/icons/sprite.svg'
-export const LocationIcon = ({ width, height }) => {
+export const LocationIcon = () => {
   return (
-    <svg width={width} height={height}>
+    <svg width={16} height={16}>
       <use href={`${sprite}#icon-map`}></use>
     </svg>
   );

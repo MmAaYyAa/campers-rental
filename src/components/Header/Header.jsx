@@ -1,4 +1,4 @@
-import {MainContainer} from '../Layout/MainContainer';
+
 import { StyledHeader, Logo, NavList, StyledNavLink } from './Header.styled';
 import LogoIcon from '../Icons/LogoIcon';
 
@@ -6,12 +6,11 @@ const Header = () => {
   return (
     
     <StyledHeader>
-      <MainContainer>
+       
       <Logo>
       <LogoIcon width="136" height="15" />
       </Logo>
-      <nav>
-        <NavList>
+      <NavList>
           <li>
             <StyledNavLink to="/" end>
               Home
@@ -24,8 +23,6 @@ const Header = () => {
             <StyledNavLink to="/favorites">Favorites</StyledNavLink>
           </li>
         </NavList>
-      </nav>
-      </MainContainer>
     </StyledHeader>
     
   );

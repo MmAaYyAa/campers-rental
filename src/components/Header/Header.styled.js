@@ -3,20 +3,20 @@ import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px;
   background-color:  var( --color-block);
   position: relative;
   width: 100%;
+  height: 72px;
 `;
 
-export const Logo = styled.h1`
+export const Logo = styled.div`
 position: absolute;
-left: 40px;
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #101828;
+top: 28px;
+left: 64px;
+  
 `;
 
 export const NavList = styled.ul`

@@ -6,12 +6,10 @@ import Loader from '../Loader/Loader';
 const Layout = () => {
   return (
     <>
-      <Header />
-      <main>
-      <Suspense fallback={<Loader />}>
-        <Outlet /> 
-        </Suspense>
-      </main>
+       <Header/>
+    <Suspense fallback={<Loader/>}>
+    <Outlet/>
+    </Suspense>
     </>
   );
 };
