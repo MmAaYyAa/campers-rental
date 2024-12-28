@@ -1,6 +1,7 @@
 import { formatLocation, formatPrice } from '../../utils/utils';
 import {Section, Title, ReviewBox, Review, Star, ReviewText, Location, List, Image, Description} from '../TruckInfo/TruckInfo.styled';
-
+import {StarIcon} from '../Icons/StarIcon';
+import { LocationIcon } from '../Icons/LocationIcon';
 export default function TruckInfo({
   truck: { name, price, rating, reviews, description, gallery, location },
 }) {
@@ -11,14 +12,12 @@ export default function TruckInfo({
             <ReviewBox>
               <Review>
                 <Star width={16} height={16}>
-                  <use xlinkHref={`${icons}#icon-star`} />
+                <StarIcon />
                 </Star>
                 <ReviewText>{`${rating}(${reviews.length} Reviews)`}</ReviewText>
               </Review>
               <Location>
-                <svg width={16} height={16}>
-                  <use xlinkHref={`${icons}#icon-map`} />
-                </svg>
+                <LocationIcon />
                 <p>{formatLocation(location)}</p>
               </Location>
             </ReviewBox>

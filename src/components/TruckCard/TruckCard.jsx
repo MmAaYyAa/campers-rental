@@ -8,8 +8,8 @@ import {StarIcon} from '../Icons/StarIcon';
 import {LocationIcon } from '../Icons/LocationIcon';
 import {TransmissionIcon} from '../Icons/TransmissionIcon';
 import {PetrolIcon} from '../Icons/PetrolIcon';
-import ShowerIcon from '../Icons/ShowerIcon';
-import RadioIcon from '../Icons/RadioIcon';
+import {ShowerIcon} from '../Icons/ShowerIcon';
+import {RadioIcon} from '../Icons/RadioIcon';
 import {WindIcon} from '../Icons/WindIcon';
 import {KitchenIcon} from '../Icons/KitchenIcon';
 

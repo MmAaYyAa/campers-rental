@@ -1,9 +1,8 @@
 import sprite from '../../assets/icons/sprite.svg'
-const MicrowaveIcon = ({ width, height }) => {
+export const MicrowaveIcon = () => {
   return (
-    <svg width={width} height={height}>
+    <svg width={20} height={20}>
       <use href={`${sprite}#icon-microwave`}></use>
     </svg>
   );
 };
-export default MicrowaveIcon

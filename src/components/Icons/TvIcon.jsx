@@ -1,9 +1,8 @@
 import sprite from '../../assets/icons/sprite.svg'
-const TvIcon = ({ width, height }) => {
+export const TvIcon = () => {
   return (
-    <svg width={width} height={height}>
+    <svg width={20} height={20}>
       <use href={`${sprite}#icon-tv`}></use>
     </svg>
   );
 };
-export default TvIcon

@@ -1,13 +1,10 @@
 import styled from "styled-components";
 
 export const Section =  styled.section`
- position: absolute;
-  bottom: 80px;
-  right: 64px;
-  width: 641px;
-  padding: 44px 57px;
-  border: 1px solid var(--color-border);
+  padding: 24px 12px;
+  border: 1px solid var(--gray-light);
   border-radius: 10px;
+  width: 641px;
 `;
 
 export const Title = styled.h3`
@@ -54,27 +51,27 @@ export const StyledForm = styled.form`
   gap: 14px;
 `;
 
-export const InputField = styled.input`
-  padding: 12px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-`;
+// export const InputField = styled.input`
+//   padding: 12px 16px;
+//   border: 1px solid var(--color-border);
+//   border-radius: 5px;
+//   font-size: 16px;
+//   outline: none;
+//   transition: border-color 0.3s;
+// `;
 
-export const TextAreaField = styled.textarea`
-  padding: 12px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-  font-size: 16px;
-  outline: none;
-  resize: vertical;
-  min-height: 100px;
-  transition: border-color 0.3s;
-`;
+// export const TextAreaField = styled.textarea`
+//   padding: 12px 16px;
+//   border: 1px solid var(--color-border);
+//   border-radius: 5px;
+//   font-size: 16px;
+//   outline: none;
+//   resize: vertical;
+//   min-height: 100px;
+//   transition: border-color 0.3s;
+// `;
 
-export const ErrorText = styled.span`
-  color: var(--color-button);
-  font-size: 14px;
-`;
+// export const ErrorText = styled.span`
+//   color: var(--color-button);
+//   font-size: 14px;
+// `;

@@ -5,6 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectTruck } from '../../redux/catalog/catalogSelectors';
 import { fetchTruckById } from '../../redux/catalog/catalogOperations';
 import { formatDimension } from '../../utils/utils';
+import {TransmissionIcon} from '../Icons/TransmissionIcon';
+import {PetrolIcon} from '../Icons/PetrolIcon';
+import {KitchenIcon} from '../Icons/KitchenIcon';
+import {MicrowaveIcon} from '../Icons/MicrowaveIcon';
+import {WindIcon} from '../Icons/WindIcon';
+import {TvIcon} from '../Icons/TvIcon';
+import {RadioIcon} from '../Icons/RadioIcon';
+import {ShowerIcon} from '../Icons/ShowerIcon'; 
+import {WaterIcon} from '../Icons/WaterIcon';
 
 import { Section, List, ListItem, Title,  DetailsList, DetailsItem, Details} from '../TruckFeatures/TruckFeatures.styled';
 
@@ -43,17 +52,13 @@ export default function TruckFeatures() {
           <List>
             {transmission === 'automatic' && (
               <ListItem>
-                <svg  width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-diagram`} />
-                </svg>
+                <TransmissionIcon />
                 <p>Automatic</p>
               </ListItem>
             )}
             {petrol && (
               <ListItem>
-                <svg  width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-fuel-pump`} />
-                </svg>
+                <PetrolIcon />
                 <p>Petrol</p>
               </ListItem>
             )}
@@ -67,57 +72,42 @@ export default function TruckFeatures() {
             )}
             {kitchen && (
               <ListItem>
-                <svg width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-cup-hot`} />
-                </svg>
-                <p>Kitchen</p>
+                <KitchenIcon />
               </ListItem>
             )}
             {microwave && (
               <ListItem>
-                <svg width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-tv`} />
-                </svg>
+                <MicrowaveIcon />
                 <p>Microwave</p>
               </ListItem>
             )}
             {AC && (
               <ListItem>
-                <svg  width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-wind`} />
-                </svg>
+                <WindIcon />
                 <p>AC</p>
               </ListItem>
             )}
             {TV && (
               <ListItem>
-                <svg className={css.icon} width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-tv`} />
-                </svg>
+               <TvIcon />
                 <p>TV</p>
               </ListItem>
             )}
             {radio && (
               <ListItem>
-                <svg  width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-ui-radios`} />
-                </svg>
+                <RadioIcon />
                 <p>Radio</p>
               </ListItem>
             )}
             {bathroom && (
               <ListItem>
-                <svg width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-bi_droplet`} />
-                </svg>
+                <ShowerIcon />
                 <p>Bathroom</p>
               </ListItem>
             )}
             {water && (
               <ListItem>
-                <svg width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-bi_droplet`} />
-                </svg>
+                <WaterIcon />
                 <p>Water</p>
               </ListItem>
             )}

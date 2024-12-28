@@ -1,24 +1,34 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useState } from 'react';
+import { Formik, Form } from 'formik';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import FormField from '../FormField/FormField';
+import Datepicker from '../DatePicker/DatePicker';
 import { BookingSchema } from '../../utils/validation';
-import {Section, Title, Text, StyledForm, InputField, TextAreaField, 
-    ErrorText,
-    SubmitButton} from '../BookingForm/BookingForm.styled';
+import {Section, Title, Text, StyledForm, SubmitButton} from '../BookingForm/BookingForm.styled';
 
 export default function BookingForm() {
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const initialValues = {
+    name: '',
+    email: '',
+    bookingDate: '',
+    comment: '',
+  };
+
+  const mockPostRequest = values => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({ data: 'Success' });
+      }, 1000);
+    });
+  };
+
     const handleSubmit = async (values, actions) => {
-      setIsSubmitting(true);
       try {
-        await axios.post('/api/bookings', values);
+        await mockPostRequest(values);
         toast.success('Booking successful!');
         actions.resetForm();
       } catch {
         toast.error('Booking error!');
-      } finally {
-        setIsSubmitting(false);
       }
     };
   
@@ -29,43 +39,35 @@ export default function BookingForm() {
             Stay connected! We are always ready to help you.
           </Text>
           <Formik
-            initialValues={{ name: '', email: '', date: '', comment: '' }}
+            initialValues={initialValues}
             validationSchema={BookingSchema}
             onSubmit={handleSubmit}
           >
-            {() => (
-              <StyledForm autoComplete="off">
-                <Field  as={InputField}
+             {({ values, setFieldValue }) => (
+              <Form as={StyledForm} autoComplete="off">
+                <FormField 
                   type="text"
                   name="name"
                   placeholder="Name*"
                 />
-                <ErrorMessage name="name" component={ErrorText} />
-                <Field  as={InputField}
+                <FormField
                   type="email"
                   name="email"
                   placeholder="Email*"
                 />
-                <ErrorMessage name="email" component={ErrorText} />
-                <Field  as={InputField}
-                  type="date"
-                  name="date"
-                  placeholder="Booking date*"
-                />
-                <ErrorMessage  name="date" component={ErrorText} />
-                <Field
-                 as={TextAreaField} 
+                <Datepicker
+              selected={values.bookingDate}
+              onChange={date => setFieldValue('bookingDate', date)}
+            />
+                <FormField 
                   name="comment"
                   placeholder="Comment"
                 />
-                <ErrorMessage
-                  name="comment"
-                  component={ErrorText}
-                />
-                <SubmitButton type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Sending...' : 'Send'}
+             
+                <SubmitButton type="submit">
+                  Send
                 </SubmitButton>
-              </StyledForm>
+              </Form>
             )}
           </Formik>
         </Section>
