@@ -1,4 +1,12 @@
 import styled from "styled-components";
+import {StarIcon} from '../Icons/StarIcon';
+
+export const StyledStarIcon = styled(StarIcon)` 
+width: 20px; 
+height: 20px; 
+
+&.filled { fill: gold; } 
+&.notFilled { fill: gray; } `;
 
 export const Section = styled.section`
   width: 632px;

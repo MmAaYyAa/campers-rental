@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTruck } from '../../redux/catalog/catalogSelectors';
 import { fetchTruckById } from '../../redux/catalog/catalogOperations';
-import {Avatar, Section, Item, ReviewInfo, Name, Comment} from '../TruckReviews/TruckReviews.styled'
+import {StyledStarIcon, Avatar, Section, Item, ReviewInfo, Name, Comment} from '../TruckReviews/TruckReviews.styled'
 
 export default function TruckReviews() {
     const dispatch = useDispatch();
@@ -17,14 +17,12 @@ export default function TruckReviews() {
       const stars = [];
       for (let i = 0; i < 5; i++) {
         stars.push(
-          <svg
+          <StyledStarIcon
             key={i}
-            className={`${css.star} ${i < rating ? css.filled : css.notFilled}`}
+            className={i < rating ? 'filled' : 'notFilled'}
             width={20}
             height={20}
-          >
-            <use xlinkHref={`${icons}#icon-star`} />
-          </svg>
+          />
         );
       }
       return stars;
