@@ -64,15 +64,13 @@ export default function TruckFeatures() {
             )}
             {gas && (
               <ListItem>
-                <svg  width={20} height={20}>
-                  <use xlinkHref={`${icons}#icon-fuel-pump`} />
-                </svg>
                 <p>Gas</p>
               </ListItem>
             )}
             {kitchen && (
               <ListItem>
                 <KitchenIcon />
+                Kitchen
               </ListItem>
             )}
             {microwave && (

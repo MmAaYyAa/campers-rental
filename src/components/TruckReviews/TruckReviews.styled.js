@@ -10,6 +10,7 @@ height: 20px;
 
 export const Section = styled.section`
   width: 632px;
+  height: 579px;
   margin-top: 12px;
   
 `;

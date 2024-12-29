@@ -1,17 +1,15 @@
-import { Link } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavorite, removeFavorite } from '../../redux/favourites/favouritesSlice';
 import { selectFavorites } from '../../redux/favourites/favouritesSelector';
 import { formatLocation, formatPrice, truncateText } from '../../utils/utils';
-import {HeartIcon} from '../Icons/HeartIcon';
-import {StarIcon} from '../Icons/StarIcon';
-import {LocationIcon } from '../Icons/LocationIcon';
 import {TransmissionIcon} from '../Icons/TransmissionIcon';
 import {PetrolIcon} from '../Icons/PetrolIcon';
 import {ShowerIcon} from '../Icons/ShowerIcon';
 import {RadioIcon} from '../Icons/RadioIcon';
 import {WindIcon} from '../Icons/WindIcon';
 import {KitchenIcon} from '../Icons/KitchenIcon';
+import {Img, TitleBox, PriceBox, HeartButton, HeartIconStyled, ReviewBox, Review, TextReview, Location, StarStyled, MapStyled, Text, List, Item,Btn } from '../TruckCard/TruckCard.styled'
 
 export default function TruckCard({
   truck: {
@@ -45,67 +43,67 @@ export default function TruckCard({
     return (
       <>
         <h3>{name}</h3>
-        <img src={gallery[0].thumb} alt={name}></img>
+        <Img src={gallery[0].thumb} alt={name} />
         <div>
-          <div>
+          <TitleBox>
             <h3>{name}</h3>
-            <div>
+            <PriceBox>
               <h3>{formatPrice(price)}</h3>
-              <button onClick={handleFavouriteToggle}>
-                <HeartIcon/>
-              </button>
-            </div>
-          </div>
-          <div>
-            <div>
-              <StarIcon/>
-              <p>{`${rating} (${reviews.length} Reviews)`}</p>
-            </div>
-            <div>
-              <LocationIcon />
+              <HeartButton onClick={handleFavouriteToggle}>
+              <HeartIconStyled className={isFavourite ? 'active' : ''} />
+              </HeartButton>
+            </PriceBox>
+          </TitleBox>
+          <ReviewBox>
+            <Review>
+            <StarStyled />
+              <TextReview>{`${rating} (${reviews.length} Reviews)`}</TextReview>
+            </Review>
+            <Location>
+            <MapStyled />
               <p>{formatLocation(location)}</p>
-            </div>
-          </div>
-          <p>{truncateText(description)}</p>
-          <ul>
+            </Location>
+          </ReviewBox>
+          <Text>{truncateText(description)}</Text>
+          <List>
             {automatic && (
-              <li>
+              <Item>
                 <TransmissionIcon/>
                 <p>Automatic</p>
-              </li>
+              </Item>
             )}
             {petrol && (
-              <li>
+              <Item>
                 <PetrolIcon/>
                 <p>Petrol</p>
-              </li>
+              </Item>
             )}
             {kitchen && (
-              <li>
+              <Item>
                 <KitchenIcon/>
                 <p>Kitchen</p>
-              </li>
+              </Item>
             )}
             {AC && (
-              <li>
+              <Item>
                 <WindIcon/>
                 <p>AC</p>
-              </li>
+              </Item>
             )}
             {radio && (
-              <li>
+              <Item>
                 <RadioIcon/>
                 <p>Radio</p>
-              </li>
+              </Item>
             )}
             {bathroom && (
-              <li>
+              <Item>
                 <ShowerIcon/>
                 <p>Bathroom</p>
-              </li>
+              </Item>
             )}
-          </ul>
-          <Link to={`${id}`}>Show More</Link>
+          </List>
+          <Btn to={`${id}`}>Show More</Btn>
         </div>
       </>
     );

@@ -4,6 +4,7 @@ export const Section = styled.section`
 border-radius: 10px;
   padding: 44px 52px;
   width: 631px;
+  height: 579px;
   background-color: var(--color-inputs);
 `;
 

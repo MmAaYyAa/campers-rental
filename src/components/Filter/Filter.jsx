@@ -7,7 +7,8 @@ import {
 } from '../../redux/filters/filterSlice';
 import { fetchTrucks } from '../../redux/catalog/catalogOperations';
 import { selectFilters } from '../../redux/filters/filterSelector';
-import {LocationIcon} from '../Icons/LocationIcon';
+import {StyledInputLocationIcon, InputWrapper, Title, FilterTitle, FilterList, BtnFilter, Input} from '../Filter/Filter.styled';
+
 import {formatString} from '../../utils/utils';
 export default function Filter() {
   const dispatch = useDispatch();
@@ -73,19 +74,19 @@ export default function Filter() {
   };
   return (
    <section>
-    <h2>Location</h2>
-    <div>
-        <LocationIcon />
-        <input type="text"
+    <Title>Location</Title>
+    <InputWrapper>
+        <StyledInputLocationIcon />
+        <Input type="text"
         placeholder="Kyiv, Ukraine"
         onChange={handleLocationChange}
          />
-    </div>
-    <h2>Filters</h2>
-    <h3>Vehicle Equipment</h3>
-    <ul>
+    </InputWrapper>
+    <Title>Filters</Title>
+    <FilterTitle>Vehicle Equipment</FilterTitle>
+    <FilterList >
     {Object.keys(truckEquipment).map(equipment => (
-         <li key={equipment}>
+         <BtnFilter  key={equipment}>
             <button onClick={() => handleEquipmentToggle(equipment)} style={{
                 border: truckEquipment[equipment]
                   ? '2px solid blue'
@@ -93,14 +94,14 @@ export default function Filter() {
               }}>
              {equipment}
             </button>
-         </li>
+         </BtnFilter>
    ) )}
-    </ul>
+    </FilterList>
 
     <h3>Vehicle Type</h3>
-    <ul>
+    <FilterList>
     {Object.keys(truckType).map(type => (
-         <li key={type}>
+         <BtnFilter key={type}>
          <button
            onClick={() => handleTruckTypeChange(type)}
          >
@@ -108,10 +109,10 @@ export default function Filter() {
           
            {formatString(type)}
          </button>
-       </li>
+       </BtnFilter>
      ))}
     
-    </ul>
+    </FilterList>
     <button onClick={handleSearch}>
         Search
       </button>
