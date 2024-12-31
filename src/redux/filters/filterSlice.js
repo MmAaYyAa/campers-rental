@@ -1,40 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   location: '',
-  truckEquipment: {
-    automatic: false,
-    kitchen: false,
-    AC: false,
-    TV: false,
-    bathroom: false,
-  },
-  truckType: {
-    van: false,
-    fullyIntegrated: false,
-    alcove: false,
-  },
+  transmission: '',
+  truckEquipment: [],
+ form: '',
 };
 const filterSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
-    setLocation(state, action) {
-      state.location = action.payload;
+    addFilters(state, action) {
+      const { location, transmission, truckEquipment, form } = action.payload;
+      state.location = location;
+      state.transmission = transmission;
+      state.truckEquipment = truckEquipment;
+      state.form = form;
     },
-    toggleTruckEquipment(state, action) {
-      const key = action.payload;
-      if (key in state.truckEquipment) {
-        state.truckEquipment[key] = !state.truckEquipment[key];
-      }
-    },
-    setTruckType(state, action) {
-      const selectedType = action.payload;
-      Object.keys(state.truckType).forEach(type => {
-        state.truckType[type] = type === selectedType;
-      });
+    clearFilters() {
+      return initialState;
     },
   },
 });
-export const { setLocation, toggleTruckEquipment, setTruckType } =
-  filterSlice.actions;
+export const {  addFilters, clearFilters} = filterSlice.actions;
 export const filtersReducer = filterSlice.reducer;

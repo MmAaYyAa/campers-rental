@@ -19,7 +19,7 @@ export default function TruckCard({
     rating,
     reviews,
     description,
-    automatic,
+    transmission,
     petrol,
     kitchen,
     AC,
@@ -66,7 +66,7 @@ export default function TruckCard({
           </ReviewBox>
           <Text>{truncateText(description)}</Text>
           <List>
-            {automatic && (
+            {transmission && (
               <Item>
                 <TransmissionIcon/>
                 <p>Automatic</p>

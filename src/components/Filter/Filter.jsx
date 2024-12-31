@@ -1,121 +1,197 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useRef, useState } from 'react';
-import {
-  setLocation,
-  toggleTruckEquipment,
-  setTruckType,
-} from '../../redux/filters/filterSlice';
+
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchTrucks } from '../../redux/catalog/catalogOperations';
 import { selectFilters } from '../../redux/filters/filterSelector';
-import {StyledInputLocationIcon, InputWrapper, Title, FilterTitle, FilterList, BtnFilter, Input} from '../Filter/Filter.styled';
-
-import {formatString} from '../../utils/utils';
+import { addFilters, clearFilters } from '../../redux/filters/filterSlice';
+import { clearTrucks } from '../../redux/catalog/catalogSlice';
+import { FormWrapper, InputWrapper, Title, FilterTitle, FilterList, BtnFilter, Input, Button } from '../Filter/Filter.styled';
+import toast from 'react-hot-toast';
+import { formatString, equipmentIcons, typeIcons } from '../../utils/utils';
 export default function Filter() {
-  const dispatch = useDispatch();
-  const {truckType, truckEquipment } = useSelector(selectFilters);
+  // const [trucksFiltered, setTrucksFiltered] = useState(false);
+  // const filters = useSelector(selectFilters);
 
-  const [activeFilters, setActiveFilters] = useState({
+  // const dispatch = useDispatch();
+
+  // const initialValues = {
+  //   location: '',
+  //   transmission: false,
+  //   truckEquipment: [],
+  //   form: '',
+  // };
+
+  // const handleSubmit = (values, { setSubmitting }) => {
+  //   const { location, transmission, truckEquipment, form } = values;
+
+  //   if (!location && !truckEquipment.length && !form && !transmission) {
+  //     toast.error('At least one filter should be chosen');
+  //     setSubmitting(false);
+  //     return;
+  //   }
+
+  //   const newFilters = {
+  //     location,
+  //     transmission: transmission ? 'automatic' : '',
+  //     truckEquipment,
+  //     form,
+  //   };
+
+  //   dispatch(addFilters(newFilters));
+
+  //   dispatch(fetchTrucks({ page: 1, filters: newFilters, reset: true }))
+  //     .unwrap()
+  //     .then(() => {
+  //       setTrucksFiltered(true);
+  //     })
+  //     .catch(() => {
+  //       dispatch(clearTrucks());
+  //       setTrucksFiltered(false);
+  //     })
+  //     .finally(() => {
+  //       setSubmitting(false);
+  //     });
+  // };
+
+  // const handleReset = resetForm => {
+  //   dispatch(clearFilters());
+  //   dispatch(fetchTrucks({ page: 1, filters, reset: true }));
+  //   resetForm();
+  //   setTrucksFiltered(false);
+  // };
+  const [formState, setFormState] = useState({
     location: '',
-    truckType: { ...truckType },
-    truckEquipment: { ...truckEquipment },
+    transmission: false,
+    truckEquipment: [],
+    form: '',
   });
 
-  const locationRef = useRef('');
-  const truckTypeRef = useRef({ ...truckType });
-  const truckEquipmentRef = useRef({ ...truckEquipment });
-  
-  const handleLocationChange = e => {
-    const input = e.target.value;
-    locationRef.current = input.split(', ').reverse().join(', ');
-    setActiveFilters(prev => ({ ...prev, location: e.target.value }));
-  };
+  const filters = useSelector(selectFilters);
+  const dispatch = useDispatch();
 
-  const handleTruckTypeChange = type => {
-    dispatch(setTruckType(type));const newTruckType = { ...truckTypeRef.current };
-    if (newTruckType[type]) {
-      newTruckType[type] = false;
-    } else {
-      Object.keys(newTruckType).forEach(key => {
-        newTruckType[key] = false;
-      });
-      newTruckType[type] = true;
-  }
-
-  truckTypeRef.current = newTruckType;
-    setActiveFilters(prev => ({
-      ...prev,
-      truckType: { ...newTruckType },
+  const handleChange = (field, value) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [field]: value,
     }));
-};
-  const handleEquipmentToggle = equipment => {
-    truckEquipmentRef.current[equipment] =
-    !truckEquipmentRef.current[equipment];
-  setActiveFilters(prev => ({
-    ...prev,
-    truckEquipment: {
-      ...prev.truckEquipment,
-      [equipment]: truckEquipmentRef.current[equipment],
-    },
-  }));
   };
-  const handleSearch = () => {
-    dispatch(setLocation(locationRef.current));
-    Object.keys(truckTypeRef.current).forEach(type => {
-      if (truckTypeRef.current[type]) {
-        dispatch(setTruckType(type));
-      }
+
+  const handleTruckEquipmentChange = (equipment) => {
+    setFormState((prevState) => {
+      const isSelected = prevState.truckEquipment.includes(equipment);
+      const updatedEquipment = isSelected
+        ? prevState.truckEquipment.filter((item) => item !== equipment)
+        : [...prevState.truckEquipment, equipment];
+
+      return {
+        ...prevState,
+        truckEquipment: updatedEquipment,
+      };
     });
-    Object.keys(truckEquipmentRef.current).forEach(equipment => {
-      if (truckEquipmentRef.current[equipment]) {
-        dispatch(toggleTruckEquipment(equipment));
-      }
-    });
-    dispatch(fetchTrucks());
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { location, transmission, truckEquipment, form } = formState;
+
+    if (!location && !truckEquipment.length && !form && !transmission) {
+      toast.error('At least one filter should be chosen');
+      return;
+    }
+
+    const newFilters = {
+      location,
+      transmission: transmission ? 'automatic' : '',
+      truckEquipment,
+      form,
+    };
+
+    dispatch(addFilters(newFilters));
+
+    dispatch(fetchTrucks({ page: 1, filters: newFilters, reset: true }))
+      .unwrap()
+      .catch(() => {
+        dispatch(clearTrucks());
+      });
+  };
+
+  const handleReset = () => {
+    setFormState({
+      location: '',
+      transmission: false,
+      truckEquipment: [],
+      form: '',
+    });
+    dispatch(clearFilters());
+    dispatch(fetchTrucks({ page: 1, filters, reset: true }));
+  };
+
+
   return (
-   <section>
+    <FormWrapper onSubmit={handleSubmit}>
     <Title>Location</Title>
     <InputWrapper>
-        <StyledInputLocationIcon />
-        <Input type="text"
+      <Input
+        type="text"
         placeholder="Kyiv, Ukraine"
-        onChange={handleLocationChange}
-         />
+        value={formState.location}
+        onChange={(e) => handleChange('location', e.target.value)}
+      />
     </InputWrapper>
-    <Title>Filters</Title>
-    <FilterTitle>Vehicle Equipment</FilterTitle>
-    <FilterList >
-    {Object.keys(truckEquipment).map(equipment => (
-         <BtnFilter  key={equipment}>
-            <button onClick={() => handleEquipmentToggle(equipment)} style={{
-                border: truckEquipment[equipment]
-                  ? '2px solid blue'
-                  : '1px solid gray',
-              }}>
-             {equipment}
-            </button>
-         </BtnFilter>
-   ) )}
-    </FilterList>
 
-    <h3>Vehicle Type</h3>
-    <FilterList>
-    {Object.keys(truckType).map(type => (
-         <BtnFilter key={type}>
-         <button
-           onClick={() => handleTruckTypeChange(type)}
-         >
-           {' '}
-          
-           {formatString(type)}
-         </button>
-       </BtnFilter>
-     ))}
-    
-    </FilterList>
-    <button onClick={handleSearch}>
-        Search
-      </button>
-   </section>
+    <Title>Filters</Title>
+      <FilterTitle>Vehicle Equipment</FilterTitle>
+      <FilterList>
+  {['kitchen', 'AC', 'TV', 'bathroom'].map((equipment) => (
+    <label key={equipment}>
+      <input
+        type="checkbox"
+        checked={formState.truckEquipment.includes(equipment)}
+        onChange={() => handleTruckEquipmentChange(equipment)}
+      />
+      {formatString(equipment)}
+    </label>
+  ))}
+</FilterList>
+
+
+<FilterList>
+  {['van', 'fullyIntegrated', 'alcove'].map((type) => (
+    <label key={type}>
+      <input
+        type="radio"
+        name="vehicleType"
+        value={type}
+        checked={formState.form === type}
+        onChange={() => handleChange('form', type)}
+      />
+      {formatString(type)}
+    </label>
+  ))}
+</FilterList>
+
+      <FilterTitle>Transmission</FilterTitle>
+      <FilterList>
+        <BtnFilter
+          $active={formState.transmission}
+          onClick={() => handleChange('transmission', !formState.transmission)}
+        >
+          <svg width={32} height={32}>
+            <use xlinkHref="#icon-diagram" />
+          </svg>
+          Automatic
+        </BtnFilter>
+      </FilterList>
+
+      <div>
+      <Button type="submit" disabled={!(formState.location || formState.truckEquipment.length || formState.form || formState.transmission)}>
+          Filter
+        </Button>
+        <Button type="button" onClick={handleReset}>
+          Reset
+        </Button>
+      </div>
+    </FormWrapper>
   );
 }

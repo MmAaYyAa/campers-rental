@@ -13,16 +13,31 @@ const trucksSlice = createSlice({
   name: 'trucks',
   initialState: {
     items: [],
+    total: 0,
     truck: null,
     loading: false,
     error: null,
+  },
+  reducers: {
+    clearTrucks(state) {
+      state.items = [];
+      state.total = 0;
+    },
   },
   extraReducers: builder => {
     builder
       .addCase(fetchTrucks.pending, handlePending)
       .addCase(fetchTrucks.fulfilled, (state, action) => {
-        state.items = action.payload;
         state.loading = false;
+        const { items, reset } = action.payload;
+
+        if (reset) {
+          state.items = items;
+        } else {
+          state.items = [...state.items, ...items];
+        }
+
+        state.total = action.payload.total;
       })
       .addCase(fetchTrucks.rejected, handleRejected)
       .addCase(fetchTruckById.pending, handlePending)
@@ -33,4 +48,6 @@ const trucksSlice = createSlice({
       .addCase(fetchTruckById.rejected, handleRejected);
   },
 });
+
+export const { clearTrucks } = trucksSlice.actions;
 export const trucksReducer = trucksSlice.reducer;

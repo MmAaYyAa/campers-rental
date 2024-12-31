@@ -5,8 +5,8 @@ export const StyledStarIcon = styled(StarIcon)`
 width: 20px; 
 height: 20px; 
 
-&.filled { fill: gold; } 
-&.notFilled { fill: gray; } `;
+&.filled { fill: var( --color-rating); } 
+&.notFilled { fill: var(--color-text); } `;
 
 export const Section = styled.section`
   width: 632px;

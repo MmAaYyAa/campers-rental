@@ -5,7 +5,7 @@ import TruckFeatures from '../components/TruckFeatures/TruckFeatures';
 import TruckReviews from '../components/TruckReviews/TruckReviews';
 
  const HomePage = lazy(() => import('../pages/HomePage'));
- const CatalogPage = lazy(() => import('../pages/CatalogPage'));
+ const CatalogPage = lazy(() => import('../pages/CatalogPage/CatalogPage'));
  const TruckDetailsPage = lazy(() =>
    import('../pages/TruckDetailsPage/TruckDetailsPage')
  );

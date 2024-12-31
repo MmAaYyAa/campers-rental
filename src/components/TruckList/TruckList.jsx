@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux';
-
 import TruckCard from '../TruckCard/TruckCard';
-import { selectFilteredTrucks } from '../../redux/catalog/catalogSelectors';
+import { selectTrucks } from '../../redux/catalog/catalogSelectors';
 export default function TruckList() {
-  const filteredTrucks = useSelector(selectFilteredTrucks);
+  const trucks = useSelector(selectTrucks);
   return (
     <>
       <ul>
-        {filteredTrucks.map(truck => (
-          <li key={truck.id}>
+        {trucks.map((truck,index) => (
+          <li key={index}>
             <TruckCard truck={truck} />
           </li>
         ))}

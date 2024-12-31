@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import {LocationIcon} from '../Icons/LocationIcon';
 
-export const Title = styled.h2`
+
+export const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const Title = styled.h3`
   font-size: 16px;
   line-height: 150%;
   color: var(--gray);
@@ -12,12 +19,20 @@ export const InputWrapper = styled.div`
  margin: 8px 0 40px;
 `;
 
-export const StyledInputLocationIcon = styled(LocationIcon)`
+export const StyledInputLocationIcon = styled.div`
 position: absolute;
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+
+  &.inputEmpty {
+    fill: var(--gray);
+  }
+
+  &.inputFilled {
+    fill: var(--color-text);
+  }
 `;
 
 export const Input = styled.input`
@@ -25,11 +40,14 @@ export const Input = styled.input`
   border: none;
   border-radius: 12px;
   padding: 16px 20px 16px 48px;
-
   background-color: var(--color-inputs);
+  
+  &::placeholder {
+    color: var(--gray);
+  }
 `;
 
-export const FilterTitle = styled.h3`
+export const FilterTitle = styled.h4`
   font-weight: 600;
   font-size: 20px;
   line-height: 120%;
@@ -37,7 +55,7 @@ export const FilterTitle = styled.h3`
 `;
 
 
-export const FilterList = styled.ul`
+export const FilterList = styled.div`
  display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -47,17 +65,35 @@ export const FilterList = styled.ul`
   border-top: 1px solid var(--color-border);
 `;
 
-export const BtnFilter = styled.li`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 8px;
+export const BtnFilter = styled.button.attrs((props) => ({
+  'data-active': props.$active,
+}))`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: ${(props) => (props.$active ? '#007BFF' : 'white')};
+  color: ${(props) => (props.$active ? 'white' : 'black')};
+  cursor: pointer;
+  transition: background-color 0.3s;
 
-width: 112px;
-height: 96px;
-border-radius: 12px;
+  &:hover {
+    background-color: ${(props) => (props.$active ? '#0056b3' : '#f0f0f0')};
+  }
+`;
 
-text-transform: capitalize;
-text-align: center;
+
+export const Button = styled.button`
+ padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: ${(props) => (props.disabled ? '#ccc' : '#007BFF')};
+  color: white;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+
+  &:hover {
+    background-color: ${(props) => (props.disabled ? '#ccc' : '#0056b3')};
+  }
 `;

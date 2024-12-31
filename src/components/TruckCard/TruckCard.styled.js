@@ -36,7 +36,7 @@ export const HeartIconStyled = styled(HeartIcon)`
   transition: fill 0.3s ease;
 
   &.active {
-    fill: var(--button);
+    fill: var(--color-button);
   }
 `;
 
@@ -63,17 +63,17 @@ export const Location = styled.div`
 `;
 
 export const StarStyled = styled(StarIcon)`
-  fill: var(--rating);
+  fill: var(--color-rating);
 `;
 
 export const MapStyled = styled(LocationIcon)`
-  fill: var(--main);
+  fill: var(--color-text);
 `;
 
 export const Text = styled.p`
   width: 525px;
   margin-bottom: 24px;
-  color: var(--text);
+  color: var(--color-main);
 `;
 
 export const List = styled.ul`
@@ -92,7 +92,7 @@ export const Item = styled.li`
   flex-basis: calc(100% / 3 - 16px);
   padding: 12px 18px;
   border-radius: 100px;
-  background-color: var(--badges);
+  background-color: var(--color-block);
 `;
 
 export const Btn = styled(Link)`
