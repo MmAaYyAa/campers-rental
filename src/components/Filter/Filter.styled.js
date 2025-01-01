@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-import {LocationIcon} from '../Icons/LocationIcon';
-
+import styled, { css } from 'styled-components';
 
 export const FormWrapper = styled.form`
   display: flex;
@@ -10,40 +8,61 @@ export const FormWrapper = styled.form`
 
 export const Title = styled.h3`
   font-size: 16px;
-  line-height: 150%;
+  line-height: 24px;
   color: var(--gray);
 `;
 
 export const InputWrapper = styled.div`
- position: relative;
- margin: 8px 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  margin: 8px 0 40px;
 `;
 
 export const StyledInputLocationIcon = styled.div`
 position: absolute;
-  left: 20px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--gray);
+  transition: fill 0.3s;
+}
 
-  &.inputEmpty {
-    fill: var(--gray);
+&.inputFilled svg {
+    fill: var(--color-text); 
   }
-
-  &.inputFilled {
-    fill: var(--color-text);
-  }
-`;
+ `;
 
 export const Input = styled.input`
  width: 100%;
   border: none;
   border-radius: 12px;
-  padding: 16px 20px 16px 48px;
+  padding: 16px 16px 16px 48px; 
   background-color: var(--color-inputs);
-  
+  color: var(--gray); 
+  transition: color 0.3s;
+
   &::placeholder {
+    font-size: 16px;
     color: var(--gray);
+    transition: color 0.3s;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.inputFilled {
+    color: var(--color-text); 
+  }
+
+  &.inputFilled::placeholder {
+    color: var(--color-text); 
   }
 `;
 
@@ -52,6 +71,7 @@ export const FilterTitle = styled.h4`
   font-size: 20px;
   line-height: 120%;
   margin: 32px 0 24px;
+  color: var(--color-text);
 `;
 
 
@@ -65,35 +85,79 @@ export const FilterList = styled.div`
   border-top: 1px solid var(--color-border);
 `;
 
-export const BtnFilter = styled.button.attrs((props) => ({
-  'data-active': props.$active,
-}))`
+const sharedStyle = css`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: ${(props) => (props.$active ? '#007BFF' : 'white')};
-  color: ${(props) => (props.$active ? 'white' : 'black')};
+  justify-content: center;
+  width: 100px;
+  height: 80px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background-color: var(--color-background);
+  color: var(--color-text);
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    transition: fill 0.3s;
+  }
+
+  span {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2; 
+    text-align: center;
+  }
 
   &:hover {
-    background-color: ${(props) => (props.$active ? '#0056b3' : '#f0f0f0')};
+    border-color: var(--color-button);
   }
+
+  ${(props) =>
+    props.checked &&
+    css`
+      border-color: var(--color-button);
+    `}
+    
 `;
 
 
+export const StyledCheckbox = styled.label`
+  ${sharedStyle}
+`;
+
+
+export const StyledRadio = styled.label`
+  ${sharedStyle}
+`;
+
+
+export const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const ButtonBlock = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
+
 export const Button = styled.button`
+width: 130px;
  padding: 8px 16px;
   border: none;
-  border-radius: 4px;
-  background-color: ${(props) => (props.disabled ? '#ccc' : '#007BFF')};
+  border-radius: 200px;
+  background-color: ${(props) => (props.disabled ? 'var(--color-border)' : 'var(--color-button)')};
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
   color: white;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
   &:hover {
-    background-color: ${(props) => (props.disabled ? '#ccc' : '#0056b3')};
+    background-color: ${(props) => (props.disabled ? 'var(--color-border)' : 'var(--color-button-hover)')};
   }
 `;

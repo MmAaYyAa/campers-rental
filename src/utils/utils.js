@@ -35,7 +35,7 @@ export const formatString = str => {
     return text.substring(0, 61) + '...';
   };
   export const equipmentIcons = {
-    automatic: 'icon-diagram',
+    automatic: 'icon-automatic',
     kitchen: 'icon-cup-hot',
     AC: 'icon-wind',
     TV: 'icon-tv',

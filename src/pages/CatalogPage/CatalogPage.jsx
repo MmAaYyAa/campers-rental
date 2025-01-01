@@ -31,7 +31,7 @@ export default function CatalogPage() {
         {isError && <Error />}
         <Wrapper>
         {trucks.length > 0 && <TruckList />}
-        <LoadMoreBtn />
+        {trucks.length > 0 && <LoadMoreBtn />}
       </Wrapper>
       {/* <ScrollToTopButton /> */}
       </Container>

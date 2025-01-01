@@ -5,60 +5,13 @@ import { fetchTrucks } from '../../redux/catalog/catalogOperations';
 import { selectFilters } from '../../redux/filters/filterSelector';
 import { addFilters, clearFilters } from '../../redux/filters/filterSlice';
 import { clearTrucks } from '../../redux/catalog/catalogSlice';
-import { FormWrapper, InputWrapper, Title, FilterTitle, FilterList, BtnFilter, Input, Button } from '../Filter/Filter.styled';
+import { FormWrapper, StyledInputLocationIcon, InputWrapper, Title, FilterTitle, FilterList, Input, StyledCheckbox, StyledRadio, HiddenInput, ButtonBlock, Button } from '../Filter/Filter.styled';
 import toast from 'react-hot-toast';
-import { formatString, equipmentIcons, typeIcons } from '../../utils/utils';
+import { formatString } from '../../utils/utils';
+import {LocationIcon} from '../Icons/LocationIcon';
+import { equipmentIcons, typeIcons } from '../../utils/iconsgroup';
 export default function Filter() {
-  // const [trucksFiltered, setTrucksFiltered] = useState(false);
-  // const filters = useSelector(selectFilters);
-
-  // const dispatch = useDispatch();
-
-  // const initialValues = {
-  //   location: '',
-  //   transmission: false,
-  //   truckEquipment: [],
-  //   form: '',
-  // };
-
-  // const handleSubmit = (values, { setSubmitting }) => {
-  //   const { location, transmission, truckEquipment, form } = values;
-
-  //   if (!location && !truckEquipment.length && !form && !transmission) {
-  //     toast.error('At least one filter should be chosen');
-  //     setSubmitting(false);
-  //     return;
-  //   }
-
-  //   const newFilters = {
-  //     location,
-  //     transmission: transmission ? 'automatic' : '',
-  //     truckEquipment,
-  //     form,
-  //   };
-
-  //   dispatch(addFilters(newFilters));
-
-  //   dispatch(fetchTrucks({ page: 1, filters: newFilters, reset: true }))
-  //     .unwrap()
-  //     .then(() => {
-  //       setTrucksFiltered(true);
-  //     })
-  //     .catch(() => {
-  //       dispatch(clearTrucks());
-  //       setTrucksFiltered(false);
-  //     })
-  //     .finally(() => {
-  //       setSubmitting(false);
-  //     });
-  // };
-
-  // const handleReset = resetForm => {
-  //   dispatch(clearFilters());
-  //   dispatch(fetchTrucks({ page: 1, filters, reset: true }));
-  //   resetForm();
-  //   setTrucksFiltered(false);
-  // };
+  
   const [formState, setFormState] = useState({
     location: '',
     transmission: false,
@@ -132,66 +85,87 @@ export default function Filter() {
     <FormWrapper onSubmit={handleSubmit}>
     <Title>Location</Title>
     <InputWrapper>
+    <StyledInputLocationIcon className={formState.location ? 'inputFilled' : 'inputEmpty'}>
+    <LocationIcon />
+  </StyledInputLocationIcon>
       <Input
         type="text"
-        placeholder="Kyiv, Ukraine"
+        placeholder="City"
         value={formState.location}
         onChange={(e) => handleChange('location', e.target.value)}
-      />
+        className={formState.location ? 'inputFilled' : 'inputEmpty'}
+     />
     </InputWrapper>
 
     <Title>Filters</Title>
       <FilterTitle>Vehicle Equipment</FilterTitle>
       <FilterList>
-  {['kitchen', 'AC', 'TV', 'bathroom'].map((equipment) => (
-    <label key={equipment}>
-      <input
-        type="checkbox"
-        checked={formState.truckEquipment.includes(equipment)}
-        onChange={() => handleTruckEquipmentChange(equipment)}
-      />
-      {formatString(equipment)}
-    </label>
-  ))}
-</FilterList>
-
-
-<FilterList>
-  {['van', 'fullyIntegrated', 'alcove'].map((type) => (
-    <label key={type}>
-      <input
-        type="radio"
-        name="vehicleType"
-        value={type}
-        checked={formState.form === type}
-        onChange={() => handleChange('form', type)}
-      />
-      {formatString(type)}
-    </label>
-  ))}
-</FilterList>
-
-      <FilterTitle>Transmission</FilterTitle>
-      <FilterList>
-        <BtnFilter
-          $active={formState.transmission}
-          onClick={() => handleChange('transmission', !formState.transmission)}
+      {Object.keys(equipmentIcons).map((equipment) => {
+      const IconComponent = equipmentIcons[equipment];
+      return (
+        <StyledCheckbox
+          key={equipment}
+          checked={formState.truckEquipment.includes(equipment)}
         >
-          <svg width={32} height={32}>
-            <use xlinkHref="#icon-diagram" />
-          </svg>
-          Automatic
-        </BtnFilter>
-      </FilterList>
+          <HiddenInput
+            type="checkbox"
+            onChange={() => handleTruckEquipmentChange(equipment)}
+          />
+          <IconComponent />
+          <span>{formatString(equipment)}</span>
+        </StyledCheckbox>
+      );
+    })}
+</FilterList>
 
-      <div>
-      <Button type="submit" disabled={!(formState.location || formState.truckEquipment.length || formState.form || formState.transmission)}>
-          Filter
-        </Button>
-        <Button type="button" onClick={handleReset}>
-          Reset
-        </Button>
-      </div>
+<FilterTitle>Vehicle Type</FilterTitle>
+<FilterList>
+{Object.keys(typeIcons).map((type) => {
+      const IconComponent = typeIcons[type];
+      return (
+        <StyledRadio
+          key={type}
+          checked={formState.form === type}
+        >
+          <HiddenInput
+            type="radio"
+            name="vehicleType"
+            onChange={() => handleChange('form', type)}
+          />
+          <IconComponent />
+          <span>{formatString(type)}</span>
+        </StyledRadio>
+      );
+    })}
+</FilterList>
+
+<ButtonBlock>
+    <Button
+      type="submit"
+      disabled={
+        !(
+          formState.location ||
+          formState.truckEquipment.length ||
+          formState.form ||
+          formState.transmission
+        )
+      }
+    >
+      Search
+    </Button >
+    <Button type="button" 
+    disabled={
+      !(
+        formState.location ||
+        formState.truckEquipment.length ||
+        formState.form ||
+        formState.transmission
+      )
+    }
+    onClick={handleReset}>
+      Reset
+    </Button>
+  </ButtonBlock>
     </FormWrapper>
   );
 }
