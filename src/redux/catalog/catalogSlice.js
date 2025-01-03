@@ -30,7 +30,6 @@ const trucksSlice = createSlice({
       .addCase(fetchTrucks.fulfilled, (state, action) => {
         state.loading = false;
         const { items, reset } = action.payload;
-
         if (reset) {
           state.items = items;
         } else {

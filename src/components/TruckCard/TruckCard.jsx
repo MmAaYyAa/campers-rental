@@ -1,15 +1,18 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addFavorite, removeFavorite } from '../../redux/favourites/favouritesSlice';
-import { selectFavorites } from '../../redux/favourites/favouritesSelector';
+import { addFavorite, removeFavorite } from '../../redux/favorites/favoritesSlice';
+import { selectFavorites } from '../../redux/favorites/favoritesSelector';
+import { selectTrucks } from '../../redux/catalog/catalogSelectors';
 import { formatLocation, formatPrice, truncateText } from '../../utils/utils';
 import {TransmissionIcon} from '../Icons/TransmissionIcon';
+import { HeartIcon } from '../Icons/HeartIcon';
 import {PetrolIcon} from '../Icons/PetrolIcon';
 import {ShowerIcon} from '../Icons/ShowerIcon';
 import {RadioIcon} from '../Icons/RadioIcon';
 import {WindIcon} from '../Icons/WindIcon';
 import {KitchenIcon} from '../Icons/KitchenIcon';
-import {Img, TitleBox, PriceBox, HeartButton, HeartIconStyled, ReviewBox, Review, TextReview, Location, StarStyled, MapStyled, Text, List, Item,Btn } from '../TruckCard/TruckCard.styled'
+import {CardContainer, InfoContainer, Img, TitleBox, PriceBox, HeartButton,  ReviewBox, Review, TextReview, Location, StarStyled, MapStyled, Text, List, Item,Btn } from '../TruckCard/TruckCard.styled'
+
 
 export default function TruckCard({
   truck: {
@@ -31,9 +34,10 @@ export default function TruckCard({
 }) {
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
-  const isFavourite = favorites.includes(id);
-  const handleFavouriteToggle = () => {
-    if (isFavourite) {
+  const isFavorite = favorites.includes(id);
+  console.log('isFavorite:', isFavorite);
+  const handleFavoriteToggle = () => {
+    if (isFavorite) {
       dispatch(removeFavorite(id));
     } else {
       dispatch(addFavorite(id));
@@ -41,17 +45,21 @@ export default function TruckCard({
   };
 
     return (
-      <>
-        <h3>{name}</h3>
+      <CardContainer>
         <Img src={gallery[0].thumb} alt={name} />
-        <div>
+        <InfoContainer>
           <TitleBox>
             <h3>{name}</h3>
             <PriceBox>
               <h3>{formatPrice(price)}</h3>
-              <HeartButton onClick={handleFavouriteToggle}>
-              <HeartIconStyled className={isFavourite ? 'active' : ''} />
-              </HeartButton>
+              <HeartButton
+                 type="button"
+                 onClick={handleFavoriteToggle}
+                 $isFavorite={isFavorite}
+                 aria-label="Toggle Favorite"
+>
+  <HeartIcon />
+</HeartButton>
             </PriceBox>
           </TitleBox>
           <ReviewBox>
@@ -104,7 +112,7 @@ export default function TruckCard({
             )}
           </List>
           <Btn to={`${id}`}>Show More</Btn>
-        </div>
-      </>
+        </InfoContainer>
+      </CardContainer>
     );
     }

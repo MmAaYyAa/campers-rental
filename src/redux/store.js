@@ -10,7 +10,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { favoritesReducer } from './favourites/favouritesSlice';
+import { favoritesReducer } from './favorites/favoritesSlice';
 import { filtersReducer } from './filters/filterSlice';
 import { trucksReducer } from './catalog/catalogSlice';
 

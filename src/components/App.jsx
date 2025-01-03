@@ -9,7 +9,8 @@ import TruckReviews from '../components/TruckReviews/TruckReviews';
  const TruckDetailsPage = lazy(() =>
    import('../pages/TruckDetailsPage/TruckDetailsPage')
  );
-const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
+ const FavoritesPage = lazy(() => import('../pages/FavoritesPage'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage/NotFoundPage'));
 const App = () => {
   return (
   <>
@@ -21,6 +22,7 @@ const App = () => {
            <Route path="features" element={<TruckFeatures/>}/>
            <Route path="reviews" element={<TruckReviews/>}/>
          </Route>
+         <Route path="favorites" element={<FavoritesPage />}/>
          <Route path="*" element={<NotFoundPage />} />
         </Route>
         </Routes>

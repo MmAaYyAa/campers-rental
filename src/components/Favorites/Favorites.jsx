@@ -1,22 +1,21 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectFavorites } from '../../redux/catalog/catalogSelectors';
-import CamperCard from './CamperCard';
+import {useSelector} from 'react-redux';
+import TruckCard from '../TruckCard/TruckCard';
 
-const FavoritesList = () => {
-    const favorites = useSelector(selectFavorites);
+const Favorites = ({ favorites }) => {
+  const trucks = useSelector((state) => state.trucks.items);
 
-    if (favorites.length === 0) {
-        return <p>No favorites added yet.</p>;
-    }
+  // Find trucks matching the favorites
+  const favoriteTrucks = trucks.filter((truck) => favorites.includes(truck.id));
 
-    return (
-        <div>
-            {favorites.map(camper => (
-                <CamperCard key={camper.id} camper={camper} />
-            ))}
-        </div>
-    );
+  return (
+    <div>
+      {favoriteTrucks.map((truck) => (
+        <TruckCard key={truck.id} truck={truck} />
+      ))}
+    </div>
+  );
 };
 
-export default FavoritesList;
+    
+
+export default Favorites;

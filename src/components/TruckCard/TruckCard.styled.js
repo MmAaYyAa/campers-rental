@@ -1,16 +1,33 @@
 import styled from 'styled-components';
 import {LocationIcon} from '../Icons/LocationIcon';
 import {StarIcon} from '../Icons/StarIcon';
-import {HeartIcon} from '../Icons/HeartIcon';
 import { Link } from 'react-router-dom';
 
 
+export const CardContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background-color: var(--color-background);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+`;
 
 export const Img = styled.img`
   border-radius: 10px;
   width: 292px;
   object-fit: cover;
   height: 320px;
+`;
+
+export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
 `;
 
 export const TitleBox = styled.div`
@@ -27,17 +44,14 @@ export const PriceBox = styled.div`
 `;
 
 export const HeartButton = styled.button`
-  background: none;
+background: transparent;
   border: none;
-`;
-
-export const HeartIconStyled = styled(HeartIcon)`
-  fill: inherit;
-  transition: fill 0.3s ease;
-
-  &.active {
-    fill: var(--color-button);
-  }
+  cursor: pointer;
+svg{
+  fill: ${({ $isFavorite }) => $isFavorite ?"var(--color-button)" : "transparent"};
+  stroke: ${({ $isFavorite }) => ($isFavorite ? "none" :"var(--gray)" )};
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
 `;
 
 export const ReviewBox = styled.div`
@@ -96,6 +110,25 @@ export const Item = styled.li`
 `;
 
 export const Btn = styled(Link)`
-  padding: 16px 40px;
+ width: 130px;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--color-button);
+  color: var(--color-background);
+  text-align: center;
   text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-button-hover); 
+  }
+
+  &:active {
+    background-color: var(--color-button-hover);
+    
+  }
 `;
